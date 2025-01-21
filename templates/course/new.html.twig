@@ -1,0 +1,17 @@
+{# templates/course/new.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle course {% endblock %}
+
+{% block body %}
+    <h1>Ajouter une nouvelle course</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.pointDepart) }}
+        {{ form_row(form.pointArrivee) }}
+        {{ form_row(form.dateHeure) }}
+
+        <button type="submit">Ajouter</button>
+    {{ form_end(form) }}
+{% endblock %}

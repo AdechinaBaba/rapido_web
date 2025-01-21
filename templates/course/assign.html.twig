@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Assignation des Chauffeurs{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Assignation des Chauffeurs aux Courses</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="course_id" class="form-label">Courses disponibles</label>
+            <select name="course_id" id="course_id" class="form-control" required>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">
+                        {{ course.pointDepart }} - {{ course.pointArrivee }} ({{ course.dateHeure|date('d/m/Y H:i') }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="chauffeur_id" class="form-label">Chauffeurs disponibles</label>
+            <select name="chauffeur_id" id="chauffeur_id" class="form-control" required>
+                {% for chauffeur in chauffeurs %}
+                    <option value="{{ chauffeur.id }}">
+                        {{ chauffeur.nom }} {{ chauffeur.prenoms }} 
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assigne</button>
+    </form>
+</div>
+{% endblock %}

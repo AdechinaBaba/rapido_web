@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Courses - RAPIDO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .card {
+            margin-bottom: 2rem;
+        }
+        .header-title {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="header-title text-center">Liste des Courses</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Point de Départ</th>
+                            <th>Point d'Arrivée</th>
+                            <th>Date & Heure</th>
+                            <th>Chauffeur</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in courses %}
+                        <tr>
+                            <td>{{ course.id }}</td>
+                            <td>{{ course.pointDepart }}</td>
+                            <td>{{ course.pointArrivee }}</td>
+                            <td>{{ course.dateHeure|date('d/m/Y H:i') }}</td>
+                            <td>
+                                {% if course.chauffeur %}
+                                    {{ course.chauffeur.nom }} {{ course.chauffeur.prenoms }}
+                                {% else %}
+                                    <span class="text-muted">Non assigné</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge {{ course.statut == 'terminé' ? 'bg-success' : 'bg-warning text-dark' }}">
+                                    {{ course.statut|capitalize }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if course.statut != 'terminé' %}
+                                    <a href="{{ path('course_complete', { id: course.id }) }}" class="btn btn-sm btn-success">Terminer</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="{{ path('course_new') }}">Créer une Nouvelle Course</a></br>
+    <a href="{{ path('course_assign') }}">Attribuer un Chauffeur</a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
